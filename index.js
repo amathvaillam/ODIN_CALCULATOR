@@ -1,0 +1,22 @@
+const data = [
+    { class: "clear", value: "clear", display: "AC", key: "192" },
+    { class: "sign", value: "sign", display: "+/-", key: "193" },
+    { class: "percent", value: "%", display: "%", key: "194" },
+    { class: "operator", value: "/", display: "/", key: "111" },
+    { class: "operand", value: "7", display: "7", key: "103" },
+    { class: "operand", value: "8", display: "7", key: "104" },
+    { class: "operand", value: "9", display: "7", key: "105" },
+    { class: "operator", value: "*", display: "X", key: "191" },
+    { class: "operand", value: "4", display: "4", key: "100" },
+    { class: "operand", value: "5", display: "5", key: "101" },
+    { class: "operand", value: "6", display: "6", key: "102" },
+    { class: "operator", value: "-", display: "-", key: "109" },
+    { class: "operand", value: "1", display: "1", key: "97" },
+    { class: "operand", value: "2", display: "2", key: "98" },
+    { class: "operand", value: "3", display: "3", key: "99" },
+    { class: "operator", value: "+", display: "+", key: "107" },
+    { class: "operand", value: "0", display: "0", key: "96" },
+    { class: "point", value: ".", display: ".", key: "110" },
+    { class: "operator", value: "=", display: "=", key: "187" },
+
+]
