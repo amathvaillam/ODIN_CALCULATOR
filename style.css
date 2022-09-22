@@ -31,6 +31,10 @@ body {
 }
 
 button[data-key] {
-    flex: 100%;
+    flex: 25%;
     height: 50px
+}
+
+button[data-key="96"] {
+    flex: 50%;
 }

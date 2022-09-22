@@ -8,8 +8,10 @@ const datas = [{
         value: "clear",
         display: "AC",
         key: "192",
-        listenerOnClick: (event) => {
-
+        listenerOnClick: (event) => event.target.value,
+        listenerOnKeypress: (event) => {
+            if (event.keyCode() === event.target.getAttribute('data-key'))
+                return event.target.value
         },
     },
     { class: "sign", value: "sign", display: "+/-", key: "193" },
@@ -29,7 +31,7 @@ const datas = [{
     { class: "operator", value: "+", display: "+", key: "107" },
     { class: "operand", value: "0", display: "0", key: "96" },
     { class: "point", value: ".", display: ".", key: "110" },
-    { class: "operator", value: "=", display: "=", key: "187" },
+    { class: "equal", value: "=", display: "=", key: "187" },
 ]
 const operatorFunction = {
     "+": (a, b) => a + b,
@@ -48,24 +50,30 @@ const init = () => {
         button.setAttribute("value", data.value)
         button.setAttribute("data-key", data.key)
         button.textContent = data.display
+        if (data.value == "=") {
+            button.addEventListener("click", data.listenerOnClick)
+            button.addEventListener("keypress", data.listenerOnKeypress)
+        }
         return button
     })
     let i = 1;
-    let div = document.createElement("DIV")
+    let div = document.createElement("DIV");
     div.classList.add("button-range")
     for (let button of buttons) {
-        if (i % 5 == 0) {
+        div.appendChild(button)
+        if ((i % 4 == 0 && i > 0) || i == 19) {
+            console.log(i)
             container.appendChild(div)
             div = document.createElement("DIV")
             div.classList.add("button-range")
-            i = 1
         }
-        div.appendChild(button)
         i++
     }
+
     return buttons
 }
 
 const main = (function() {
     console.log(init())
+
 })()
