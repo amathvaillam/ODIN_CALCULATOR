@@ -31,6 +31,13 @@ const datas = [{
     { class: "point", value: ".", display: ".", key: "110" },
     { class: "operator", value: "=", display: "=", key: "187" },
 ]
+const operatorFunction = {
+    "+": (a, b) => a + b,
+    "-": (a, b) => a - b,
+    "*": (a, b) => a * b,
+    '/': (a, b) => b === 0 ? new Error("division by Zero") : a / b
+}
+
 const init = () => {
     let container = document.querySelector("#pad")
     let buttons = datas.map(data => {
