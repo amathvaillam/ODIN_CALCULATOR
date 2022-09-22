@@ -35,8 +35,10 @@ const operatorFunction = {
     "+": (a, b) => a + b,
     "-": (a, b) => a - b,
     "*": (a, b) => a * b,
-    '/': (a, b) => b === 0 ? new Error("division by Zero") : a / b
+    '/': (a, b) => b === 0 ? Error("division by Zero") : a / b
 }
+
+const operate = (operator, a, b) => operatorFunction[operator](a, b)
 
 const init = () => {
     let container = document.querySelector("#pad")
