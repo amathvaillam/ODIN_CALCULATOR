@@ -1,23 +1,30 @@
 let firstOperand = 0
 let secondOperand = 0
+let display = ""
 let output = ""
 let operator = ""
 
-const datas = [{
-        class: "clear",
-        value: "clear",
-        display: "AC",
-        key: "192",
-        listenerOnClick: (event) => event.target.value,
-        listenerOnKeypress: (event) => {
-            if (event.keyCode() === event.target.getAttribute('data-key'))
-                return event.target.value
-        },
-    },
+const displayFunction = (input) => {
+    display += input
+    document.getElementById("small-output").textContent = display
+}
+const listenerOnClick = (event) => {
+    displayFunction(event.target.value)
+    return event.target.value
+}
+const listenerOnKeydown = (event) => {
+    if (["%", "/", "7", "8", "9", "*", "4", "5", "6", "-", "1", "2", "3", "0", "+", "-", "=", "."]
+        .includes(event.key)) {
+        displayFunction(event.key)
+    }
+
+}
+const datas = [
+    { class: "clear", value: "clear", display: "AC", key: "192" },
     { class: "sign", value: "sign", display: "+/-", key: "193" },
     { class: "percent", value: "%", display: "%", key: "194" },
     { class: "operator", value: "/", display: "/", key: "111" },
-    { class: "operand", value: "7", display: "7", key: "103" },
+    { class: "operand", value: "7", display: "7", key: "103", },
     { class: "operand", value: "8", display: "8", key: "104" },
     { class: "operand", value: "9", display: "9", key: "105" },
     { class: "operator", value: "*", display: "X", key: "191" },
@@ -33,6 +40,7 @@ const datas = [{
     { class: "point", value: ".", display: ".", key: "110" },
     { class: "equal", value: "=", display: "=", key: "187" },
 ]
+
 const operatorFunction = {
     "+": (a, b) => a + b,
     "-": (a, b) => a - b,
@@ -50,10 +58,7 @@ const init = () => {
         button.setAttribute("value", data.value)
         button.setAttribute("data-key", data.key)
         button.textContent = data.display
-        if (data.value == "=") {
-            button.addEventListener("click", data.listenerOnClick)
-            button.addEventListener("keypress", data.listenerOnKeypress)
-        }
+        button.addEventListener("click", listenerOnClick)
         return button
     })
     let i = 1;
@@ -70,6 +75,8 @@ const init = () => {
         i++
     }
 
+    //listener for body
+    document.body.addEventListener("keydown", listenerOnKeydown)
     return buttons
 }
 

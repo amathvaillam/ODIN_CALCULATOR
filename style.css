@@ -10,6 +10,12 @@ body {
     width: 400px;
     height: 75px;
     background-color: black;
+    color: white;
+    font-size: 2em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 #container {
