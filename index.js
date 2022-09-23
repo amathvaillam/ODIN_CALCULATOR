@@ -48,19 +48,33 @@ const operate = (operator, a, b) => {
     print("operate")
         //reinitialize()
 }
+const addPoint = (input) => {
+    if (input) {
+        if (![...input].includes(".")) {
+            return input + "."
+        }
+    }
+    return "0."
+}
+const pointFunction = () => {
+    finalResult != "" ? (reinitialize(), helper.displayFunction(firstOperand = addPoint("0."))) :
+        (choosenOperator == "" ?
+            helper.displayFunction(firstOperand = addPoint(firstOperand)) :
+            helper.displayFunction(secondOperand = addPoint(secondOperand)))
+    print("point")
+}
 const changeSign = (input) => {
     if (input) {
         if (input != "0") {
-
-            if (input[0] == "-") {
+            if (input[0] == "-")
                 return input.slice(1)
-            }
             if (input[0] != "-")
                 return "-" + input
         }
     }
     return input
 }
+
 const signFunction = () => {
     finalResult != "" ? helper.displayFunction(finalResult = changeSign(finalResult + "")) : (
         choosenOperator == "" ?
@@ -108,10 +122,7 @@ const fillOperand = (input) => {
         if (checkZero(secondOperand, input, "firstoperand"))
             helper.displayFunction(secondOperand = checkZero(secondOperand, input, "secondoperand"))
     }
-
-
     //print("filloperand")
-
 }
 
 const eventKeyFunction = (key) => {
@@ -120,6 +131,8 @@ const eventKeyFunction = (key) => {
         fillOperand(key)
     } else if (operator.includes(key)) {
         setOperator(key)
+    } else if (key == ".") {
+        pointFunction()
     } else if (key == "=") {
         equalFunction()
     }
