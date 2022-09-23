@@ -1,5 +1,6 @@
-let firstOperand = 0
-let secondOperand = 0
+let firstOperand = ""
+let secondOperand = ""
+let finalResult = ""
 let display = ""
 let output = ""
 let digits = ["0", "1", "2", "3", "7", "8", "9", "4", "5", "6"]
@@ -8,6 +9,15 @@ let choosenOperator = ""
 let keys = [...digits, ...operator, "=", "."]
 let clickable = [...keys, "clear", "sign"]
 
+const print = (operation) => {
+    console.clear()
+    console.log("operation : " + operation)
+    console.log("first : " + firstOperand)
+    console.log("second : " + secondOperand)
+    console.log("result : " + finalResult)
+    console.log("opeator : " + choosenOperator)
+}
+
 const helper = {
     parse: (digit) => {
         return [...digit].includes(".") ?
@@ -15,6 +25,10 @@ const helper = {
             parseInt(digit, 10)
     },
     displayFunction: (input = "0") => {
+
+        if (document.getElementById("small-output").textContent == "0") {
+            document.getElementById("small-output").textContent = ""
+        }
         document.getElementById("small-output").textContent = input
     }
 }
@@ -27,14 +41,19 @@ const operatorFunction = {
 const reinitialize = () => {
     firstOperand = "";
     secondOperand = "";
+    finalResult = ""
     choosenOperator = "";
     helper.displayFunction()
+    print("reinitialize")
 }
 const operate = (operator, a, b) => {
-    helper.displayFunction(operatorFunction[operator](a, b))
+    helper.displayFunction(finalResult = operatorFunction[operator](a, b))
+    print("operate")
         //reinitialize()
 }
+const signFunction = (input) => {
 
+}
 const equalFunction = () => {
 
     if (firstOperand && secondOperand && choosenOperator) {
@@ -44,28 +63,39 @@ const equalFunction = () => {
         )
         choosenOperator = "="
     }
+    print("equal")
 }
-const setOperator = (key) => {
-    choosenOperator = key
-    helper.displayFunction(key)
-}
-const fillOperand = (key) => {
-    if (choosenOperator !== "") {
-        helper.displayFunction(firstOperand += key);
-
-    } else {
-        helper.displayFunction(secondOperand += key)
+const setOperator = (operator) => {
+    if (finalResult) {
+        firstOperand = finalResult + ""
+        secondOperand = ""
+        finalResult = ""
     }
+
+    choosenOperator = operator
+    helper.displayFunction(operator)
+    print("setoperator")
+}
+const fillOperand = (input) => {
+
+    if (finalResult)
+        reinitialize();
+    choosenOperator == "" ?
+        helper.displayFunction(firstOperand += input) :
+        helper.displayFunction(secondOperand += input)
+    print("filloperand")
+
 }
 
 const eventKeyFunction = (key) => {
-
     if (digits.includes(key)) {
         fillOperand(key)
     } else if (operator.includes(key)) {
         setOperator(key)
     } else if (key == "=") {
         equalFunction()
+    } else if (key == "sign") {
+        signFunction(key)
     }
 }
 
@@ -76,6 +106,7 @@ const eventClickFunction = (value) => {
         reinitialize()
     }
 }
+
 const eventFunction = (event) => {
     if (event.key && keys.includes(event.key)) {
         eventKeyFunction(event.key)
@@ -142,7 +173,7 @@ const init = () => {
         }
         i++
     }
-    helper.displayFunction("0")
+    helper.displayFunction()
         //listener for body
     document.body.addEventListener("keydown", listenerOnKeydown)
     return buttons
