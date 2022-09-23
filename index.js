@@ -10,7 +10,7 @@ let keys = [...digits, ...operator, "=", "."]
 let clickable = [...keys, "clear", "sign"]
 
 const print = (operation) => {
-    console.clear()
+
     console.log("operation : " + operation)
     console.log("first : " + firstOperand)
     console.log("second : " + secondOperand)
@@ -26,9 +26,6 @@ const helper = {
     },
     displayFunction: (input = "0") => {
 
-        if (document.getElementById("small-output").textContent == "0") {
-            document.getElementById("small-output").textContent = ""
-        }
         document.getElementById("small-output").textContent = input
     }
 }
@@ -51,8 +48,24 @@ const operate = (operator, a, b) => {
     print("operate")
         //reinitialize()
 }
-const signFunction = (input) => {
+const changeSign = (input) => {
+    if (input) {
+        if (input != "0") {
 
+            if (input[0] == "-") {
+                return input.slice(1)
+            }
+            if (input[0] != "-")
+                return "-" + input
+        }
+    }
+    return input
+}
+const signFunction = () => {
+    finalResult != "" ? helper.displayFunction(finalResult = changeSign(finalResult + "")) : (
+        choosenOperator == "" ?
+        helper.displayFunction(firstOperand = changeSign(firstOperand)) :
+        helper.displayFunction(secondOperand = changeSign(secondOperand)))
 }
 const equalFunction = () => {
 
@@ -73,29 +86,42 @@ const setOperator = (operator) => {
     }
 
     choosenOperator = operator
-    helper.displayFunction(operator)
+        //helper.displayFunction(operator)
     print("setoperator")
 }
+const checkZero = (operand, input, a) => {
+    console.log(a)
+    console.log(`${ typeof operand } ${ operand }`)
+    console.log(`${typeof input} ${input}`)
+    if (((operand == "0" || operand == "") && input != "0") || operand != "") {
+        return operand == "0" ? input : operand + input
+    }
+    return "0"
+}
 const fillOperand = (input) => {
-
     if (finalResult)
         reinitialize();
-    choosenOperator == "" ?
-        helper.displayFunction(firstOperand += input) :
-        helper.displayFunction(secondOperand += input)
-    print("filloperand")
+    if (choosenOperator == "") {
+        if (checkZero(firstOperand, input, "firstoperand"))
+            helper.displayFunction(firstOperand = checkZero(firstOperand, input, "firstoperand"))
+    } else {
+        if (checkZero(secondOperand, input, "firstoperand"))
+            helper.displayFunction(secondOperand = checkZero(secondOperand, input, "secondoperand"))
+    }
+
+
+    //print("filloperand")
 
 }
 
 const eventKeyFunction = (key) => {
+    console.log(key)
     if (digits.includes(key)) {
         fillOperand(key)
     } else if (operator.includes(key)) {
         setOperator(key)
     } else if (key == "=") {
         equalFunction()
-    } else if (key == "sign") {
-        signFunction(key)
     }
 }
 
@@ -104,6 +130,8 @@ const eventClickFunction = (value) => {
         eventKeyFunction(value)
     } else if (value == "clear") {
         reinitialize()
+    } else if (value == "sign") {
+        signFunction()
     }
 }
 
