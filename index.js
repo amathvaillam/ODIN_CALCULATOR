@@ -2,23 +2,100 @@ let firstOperand = 0
 let secondOperand = 0
 let display = ""
 let output = ""
-let operator = ""
+let digits = ["0", "1", "2", "3", "7", "8", "9", "4", "5", "6"]
+let operator = ["/", "-", "+", "*", "%"]
+let choosenOperator = ""
+let keys = [...digits, ...operator, "=", "."]
+let clickable = [...keys, "clear", "sign"]
 
-const displayFunction = (input) => {
-    display += input
-    document.getElementById("small-output").textContent = display
-}
-const listenerOnClick = (event) => {
-    displayFunction(event.target.value)
-    return event.target.value
-}
-const listenerOnKeydown = (event) => {
-    if (["%", "/", "7", "8", "9", "*", "4", "5", "6", "-", "1", "2", "3", "0", "+", "-", "=", "."]
-        .includes(event.key)) {
-        displayFunction(event.key)
+const helper = {
+    parse: (digit) => {
+        return [...digit].includes(".") ?
+            parseFloat(digit) :
+            parseInt(digit, 10)
+    },
+    displayFunction: (input = "0") => {
+        document.getElementById("small-output").textContent = input
     }
-
 }
+const operatorFunction = {
+    "+": (a, b) => a + b,
+    "-": (a, b) => a - b,
+    "*": (a, b) => a * b,
+    '/': (a, b) => b === 0 ? Error("division by Zero") : a / b
+}
+const reinitialize = () => {
+    firstOperand = "";
+    secondOperand = "";
+    choosenOperator = "";
+    helper.displayFunction()
+}
+const operate = (operator, a, b) => {
+    helper.displayFunction(operatorFunction[operator](a, b))
+        //reinitialize()
+}
+
+const equalFunction = () => {
+
+    if (firstOperand && secondOperand && choosenOperator) {
+        operate(choosenOperator,
+            helper.parse(firstOperand),
+            helper.parse(secondOperand)
+        )
+        choosenOperator = "="
+    }
+}
+const setOperator = (key) => {
+    choosenOperator = key
+    helper.displayFunction(key)
+}
+const fillOperand = (key) => {
+    if (choosenOperator !== "") {
+        helper.displayFunction(firstOperand += key);
+
+    } else {
+        helper.displayFunction(secondOperand += key)
+    }
+}
+
+const eventKeyFunction = (key) => {
+
+    if (digits.includes(key)) {
+        fillOperand(key)
+    } else if (operator.includes(key)) {
+        setOperator(key)
+    } else if (key == "=") {
+        equalFunction()
+    }
+}
+
+const eventClickFunction = (value) => {
+    if (keys.includes(value)) {
+        eventKeyFunction(value)
+    } else if (value == "clear") {
+        reinitialize()
+    }
+}
+const eventFunction = (event) => {
+    if (event.key && keys.includes(event.key)) {
+        eventKeyFunction(event.key)
+    } else if (clickable.includes(event.target.value)) {
+        eventClickFunction(event.target.value)
+    }
+}
+
+const listenerOnClick = (event) => {
+    if (clickable.includes(event.target.value)) {
+        eventFunction(event)
+    }
+}
+
+const listenerOnKeydown = (event) => {
+    if (keys.includes(event.key)) {
+        eventFunction(event)
+    }
+}
+
 const datas = [
     { class: "clear", value: "clear", display: "AC", key: "192" },
     { class: "sign", value: "sign", display: "+/-", key: "193" },
@@ -41,14 +118,6 @@ const datas = [
     { class: "equal", value: "=", display: "=", key: "187" },
 ]
 
-const operatorFunction = {
-    "+": (a, b) => a + b,
-    "-": (a, b) => a - b,
-    "*": (a, b) => a * b,
-    '/': (a, b) => b === 0 ? Error("division by Zero") : a / b
-}
-
-const operate = (operator, a, b) => operatorFunction[operator](a, b)
 
 const init = () => {
     let container = document.querySelector("#pad")
@@ -67,15 +136,14 @@ const init = () => {
     for (let button of buttons) {
         div.appendChild(button)
         if ((i % 4 == 0 && i > 0) || i == 19) {
-            console.log(i)
             container.appendChild(div)
             div = document.createElement("DIV")
             div.classList.add("button-range")
         }
         i++
     }
-
-    //listener for body
+    helper.displayFunction("0")
+        //listener for body
     document.body.addEventListener("keydown", listenerOnKeydown)
     return buttons
 }
