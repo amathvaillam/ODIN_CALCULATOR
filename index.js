@@ -33,7 +33,11 @@ const operatorFunction = {
     "+": (a, b) => a + b,
     "-": (a, b) => a - b,
     "*": (a, b) => a * b,
-    '/': (a, b) => b === 0 ? Error("division by Zero") : a / b,
+    '/': (a, b) => {
+        if (b === 0)
+            throw new Error("division by Zero")
+        return a / b
+    },
     '%': (a, b = 100) => a / b
 }
 const reinitialize = () => {
@@ -47,8 +51,15 @@ const reinitialize = () => {
 const operate = (operator, a, b) => {
     if (operator == "%")
         return operatorFunction[operator](a, b) + ""
-    else
-        helper.displayFunction(finalResult = operatorFunction[operator](a, b) + "")
+    else {
+        try {
+            let result = operatorFunction[operator](a, b) + ""
+            helper.displayFunction(finalResult = result)
+        } catch (error) {
+            helper.displayFunction(error)
+            setTimeout(() => { reinitialize() }, 1000)
+        }
+    }
     print("operate")
         //reinitialize()
 }
