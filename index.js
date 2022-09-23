@@ -33,7 +33,8 @@ const operatorFunction = {
     "+": (a, b) => a + b,
     "-": (a, b) => a - b,
     "*": (a, b) => a * b,
-    '/': (a, b) => b === 0 ? Error("division by Zero") : a / b
+    '/': (a, b) => b === 0 ? Error("division by Zero") : a / b,
+    '%': (a, b = 100) => a / b
 }
 const reinitialize = () => {
     firstOperand = "";
@@ -44,9 +45,29 @@ const reinitialize = () => {
     print("reinitialize")
 }
 const operate = (operator, a, b) => {
-    helper.displayFunction(finalResult = operatorFunction[operator](a, b))
+    if (operator == "%")
+        return operatorFunction[operator](a, b) + ""
+    else
+        helper.displayFunction(finalResult = operatorFunction[operator](a, b) + "")
     print("operate")
         //reinitialize()
+}
+const getPercent = (input) => {
+
+    if (input) {
+
+        if (helper.parse(input) !== 0) {
+            return operate("%", helper.parse(input), "100")
+        }
+    }
+    return input
+}
+const percentFunction = () => {
+    finalResult != "" ? (helper.displayFunction(finalResult = getPercent(finalResult))) :
+        (choosenOperator == "" ?
+            helper.displayFunction(firstOperand = getPercent(firstOperand) + "") :
+            helper.displayFunction(secondOperand = getPercent(secondOperand) + ""))
+    print("percent")
 }
 const addPoint = (input) => {
     if (input) {
@@ -104,9 +125,6 @@ const setOperator = (operator) => {
     print("setoperator")
 }
 const checkZero = (operand, input, a) => {
-    console.log(a)
-    console.log(`${ typeof operand } ${ operand }`)
-    console.log(`${typeof input} ${input}`)
     if (((operand == "0" || operand == "") && input != "0") || operand != "") {
         return operand == "0" ? input : operand + input
     }
@@ -126,10 +144,11 @@ const fillOperand = (input) => {
 }
 
 const eventKeyFunction = (key) => {
-    console.log(key)
     if (digits.includes(key)) {
         fillOperand(key)
-    } else if (operator.includes(key)) {
+    } else if (key == "%") {
+        percentFunction()
+    } else if (operator.includes(key) && key) {
         setOperator(key)
     } else if (key == ".") {
         pointFunction()
