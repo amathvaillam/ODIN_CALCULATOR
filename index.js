@@ -9,15 +9,6 @@ let choosenOperator = ""
 let keys = [...digits, ...operator, "=", "."]
 let clickable = [...keys, "clear", "sign"]
 
-const print = (operation) => {
-
-    console.log("operation : " + operation)
-    console.log("first : " + firstOperand)
-    console.log("second : " + secondOperand)
-    console.log("result : " + finalResult)
-    console.log("opeator : " + choosenOperator)
-}
-
 const helper = {
     parse: (digit) => {
         return [...digit].includes(".") ?
@@ -25,7 +16,6 @@ const helper = {
             parseInt(digit, 10)
     },
     displayFunction: (input = "0") => {
-
         document.getElementById("small-output").textContent = input
     }
 }
@@ -46,7 +36,6 @@ const reinitialize = () => {
     finalResult = ""
     choosenOperator = "";
     helper.displayFunction()
-    print("reinitialize")
 }
 const operate = (operator, a, b) => {
     if (operator == "%")
@@ -60,8 +49,7 @@ const operate = (operator, a, b) => {
             setTimeout(() => { reinitialize() }, 1000)
         }
     }
-    print("operate")
-        //reinitialize()
+
 }
 const getPercent = (input) => {
 
@@ -78,7 +66,6 @@ const percentFunction = () => {
         (choosenOperator == "" ?
             helper.displayFunction(firstOperand = getPercent(firstOperand) + "") :
             helper.displayFunction(secondOperand = getPercent(secondOperand) + ""))
-    print("percent")
 }
 const addPoint = (input) => {
     if (input) {
@@ -93,7 +80,6 @@ const pointFunction = () => {
         (choosenOperator == "" ?
             helper.displayFunction(firstOperand = addPoint(firstOperand)) :
             helper.displayFunction(secondOperand = addPoint(secondOperand)))
-    print("point")
 }
 const changeSign = (input) => {
     if (input) {
@@ -122,7 +108,6 @@ const equalFunction = () => {
         )
         choosenOperator = "="
     }
-    print("equal")
 }
 const setOperator = (operator) => {
     if (finalResult) {
@@ -132,8 +117,6 @@ const setOperator = (operator) => {
     }
 
     choosenOperator = operator
-        //helper.displayFunction(operator)
-    print("setoperator")
 }
 const checkZero = (operand, input, a) => {
     if (((operand == "0" || operand == "") && input != "0") || operand != "") {
@@ -151,7 +134,6 @@ const fillOperand = (input) => {
         if (checkZero(secondOperand, input, "firstoperand"))
             helper.displayFunction(secondOperand = checkZero(secondOperand, input, "secondoperand"))
     }
-    //print("filloperand")
 }
 
 const eventKeyFunction = (key) => {
