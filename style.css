@@ -48,17 +48,27 @@ button {
     background-color: rgba(0, 0, 0, .3);
 }
 
+button:hover {
+    font-size: 2em;
+    border: 4px grey solid;
+}
+
 button[data-key="96"] {
     flex: 50%;
+}
+
+.equal,
+.point {
+    background-color: skyblue;
+    color: black;
+    border: .5px white solid
 }
 
 .clear,
 .sign,
 .operator,
-.equal,
-.point,
 .percent {
-    background-color: black;
+    background-color: rgba(113, 10, 52, 0.83);
     color: white;
     border: .5px white solid
 }
